@@ -98,52 +98,53 @@
   <div class="container">
     
     <div class="progressFill" id="progressFill"><div class="block"> </div>
-    <img src="dead.png" class="number-image" id="image1" alt="Dead Image">
-    <img src="alive.png" class="number-image" id="image2" alt="Alive Image">
-    <img src="C:\Users\PC\Desktop\CodingStuff\web dev\java project\e888d4feff8fd5ff63a965471a94b874.gif" class="number-image" id="image3" alt="Plant Image">
+    <img src="res/images/dead.png" class="number-image" id="image1" alt="Dead Image">
+    <img src="res/images/alive.png" class="number-image" id="image2" alt="Alive Image">
+    <img src="res/images/e888d4feff8fd5ff63a965471a94b874.gif" class="number-image" id="image3" alt="Plant Image">
 </div>
   </div>
 
   <div class="num">Moisture Level: <span class="counter" id="numberDisplay" data-target="100">100</span></div>
 </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var num = document.getElementById('numberDisplay');
+ 
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var num = document.getElementById('numberDisplay');
+    
+    var number = parseInt(num.innerText);
+    if (number <= 5) {
+      document.getElementById('image1').style.display = 'block';
+    } else if (number >= 70) {
+      document.getElementById('image2').style.display = 'block';
+    } else {
+      document.getElementById('image3').style.display = 'block';
+    }
+  
+    const progressFill=document.getElementsByClassName('progressFill')[0];
+    const block = document.getElementsByClassName('block');
+    for (var i=1;i<number;i++){
+      progressFill.innerHTML+="<div class='block'></div>";
+      block[i].style.transform="rotate("+ 3.6 * i +"deg)";
+      block[i].style.animationDelay=`${i/50}s`;
+    }
       
-      var number = parseInt(num.innerText);
-      if (number <= 5) {
-        document.getElementById('image1').style.display = 'block';
-      } else if (number >= 70) {
-        document.getElementById('image2').style.display = 'block';
-      } else {
-        document.getElementById('image3').style.display = 'block';
+      const counter = document.querySelector('.counter');
+      counter.innerText=50;
+      const target = +counter.getAttribute('data-target');
+
+      const NumberCounter=()=>{
+        const value = +counter.innerText;
+        if (value<target){
+          counter.innerText = Math.ceil(value+1);
+          setTimeout(()=>{
+            NumberCounter()
+          },25)
+        }
       }
     
-      const progressFill=document.getElementsByClassName('progressFill')[0];
-      const block = document.getElementsByClassName('block');
-      for (var i=1;i<number;i++){
-        progressFill.innerHTML+="<div class='block'></div>";
-        block[i].style.transform="rotate("+ 3.6 * i +"deg)";
-        block[i].style.animationDelay=`${i/50}s`;
-      }
-        
-        const counter = document.querySelector('.counter');
-        counter.innerText=50;
-        const target = +counter.getAttribute('data-target');
-
-        const NumberCounter=()=>{
-          const value = +counter.innerText;
-          if (value<target){
-            counter.innerText = Math.ceil(value+1);
-            setTimeout(()=>{
-              NumberCounter()
-            },25)
-          }
-        }
-      
-      NumberCounter()
-    });
-  </script>
-</body>
+    NumberCounter()
+  });
+</script>
 </html>
