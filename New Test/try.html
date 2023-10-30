@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Display with Styled Circular Progress Bar</title>
+  <style>
+    /* Styles remain unchanged */
+  </style>
+</head>
+<body>
+<div class="flexy">
+  <div class="container">
+    <div class="progressFill" id="progressFill"><div class="block"> </div></div>
+    <img src="dead.png" class="number-image" id="image1" alt="Dead Image">
+    <img src="alive.png" class="number-image" id="image2" alt="Alive Image">
+    <img src="C:\Users\PC\Desktop\CodingStuff\web dev\java project\e888d4feff8fd5ff63a965471a94b874.gif" class="number-image" id="image3" alt="Plant Image">
+  </div>
+
+  <div class="num">
+    Moisture Level:
+    <input type="number" id="moistureInput" min="0" max="100" placeholder="Enter Moisture Level">
+    <button onclick="startAnimation()">Start Animation</button>
+  </div>
+</div>
+
+<script>
+  function startAnimation() {
+    const moistureInput = document.getElementById('moistureInput');
+    const moistureLevel = parseInt(moistureInput.value);
+
+    if (moistureLevel >= 0 && moistureLevel <= 100) {
+      document.getElementById('image1').style.display = 'none';
+      document.getElementById('image2').style.display = 'none';
+      document.getElementById('image3').style.display = 'none';
+
+      const progressFill = document.getElementsByClassName('progressFill')[0];
+      const counter = document.querySelector('.counter');
+      counter.innerText = 0; // Reset the counter to start the animation from 0
+
+      for (let i = 1; i <= moistureLevel; i++) {
+        progressFill.innerHTML += "<div class='block'></div>";
+        const blocks = document.getElementsByClassName('block');
+        blocks[i].style.transform = "rotate(" + 3.6 * i + "deg)";
+        blocks[i].style.animationDelay = `${i / 50}s`;
+      }
+
+      const NumberCounter = () => {
+        const value = +counter.innerText;
+        if (value < moistureLevel) {
+          counter.innerText = Math.ceil(value + 1);
+          setTimeout(() => {
+            NumberCounter();
+          }, 25);
+        }
+      }
+
+      NumberCounter();
+      
+      if (moistureLevel <= 5) {
+        document.getElementById('image1').style.display = 'block';
+      } else if (moistureLevel >= 70) {
+        document.getElementById('image2').style.display = 'block';
+      } else {
+        document.getElementById('image3').style.display = 'block';
+      }
+    } else {
+      alert("Please enter a moisture level between 0 and 100.");
+    }
+  }
+</script>
+</body>
+</html>
