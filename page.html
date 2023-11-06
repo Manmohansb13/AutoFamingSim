@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Display with Styled Circular Progress Bar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .flexy {
+        display: flex;
+        flex-direction: column ;
+        align-items: center;
+    }
+
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff00;
+      margin-bottom: 20px;
+    }
+
+    .container .progressFill {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .container .progressFill .block {
+        position: absolute;
+        width: 2px;
+        height: 15px;
+        background-color: black;
+        left: 50%;
+        top: -10%;
+        transform-origin: 50% 120px;
+        opacity:0;
+        animation: animate 0.1s linear forwards;
+        
+    }
+    @keyframes animate{
+        to
+        {
+            opacity: 1;
+        }
+        
+    }
+
+    .container .progressFill .block:nth-child(-n+103){
+      background: rgb(60, 255, 0);
+      box-shadow: 0 0 15px #0f0,0 0 30px #0f0;
+    }
+
+    .container .progressFill .block:nth-child(-n+81){
+      background: rgb(0, 123, 255);
+      box-shadow: 0 0 15px  rgb(0, 123, 255),0 0 30px  rgb(0, 123, 255);
+    }
+    
+    .container .progressFill .block:nth-child(-n+25){
+      background: rgb(255, 0, 0);
+      box-shadow: 0 0 15px  rgb(255, 0, 0),0 0 30px  rgb(255, 0, 0);
+    }
+    
+    
+
+    .number-image {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .num {
+        padding-top: 50px;
+      text-align: center;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class=" water">
+    <img src="C:\Users\Manmohan\Downloads\java project" alt="Water fall" sizes="" srcset="">
+  </div>
+<div class="flexy">
+  <div class="container">
+    
+    <div class="progressFill" id="progressFill"><div class="block"> </div>
+    <img src="dead.png" class="number-image" id="image1" alt="Dead Image">
+    <img src="alive.png" class="number-image" id="image2" alt="Alive Image">
+    <img src="C:\Users\PC\Desktop\CodingStuff\web dev\java project\e888d4feff8fd5ff63a965471a94b874.gif" class="number-image" id="image3" alt="Plant Image">
+</div>
+  </div>
+
+  <div class="num">Moisture Level: <span class="counter" id="numberDisplay" data-target="100">100</span></div>
+</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var num = document.getElementById('numberDisplay');
+      
+      var number = parseInt(num.innerText);
+      if (number <= 5) {
+        document.getElementById('image1').style.display = 'block';
+      } else if (number >= 70) {
+        document.getElementById('image2').style.display = 'block';
+
+      } else {
+        document.getElementById('image3').style.display = 'block';
+      }
+    
+      const progressFill=document.getElementsByClassName('progressFill')[0];
+      const block = document.getElementsByClassName('block');
+      for (var i=1;i<number;i++){
+        progressFill.innerHTML+="<div class='block'></div>";
+        block[i].style.transform="rotate("+ 3.6 * i +"deg)";
+        block[i].style.animationDelay=`${i/50}s`;
+      }
+        
+        const counter = document.querySelector('.counter');
+        counter.innerText=50;
+        const target = +counter.getAttribute('data-target');
+
+        const NumberCounter=()=>{
+          const value = +counter.innerText;
+          if (value<target){
+            counter.innerText = Math.ceil(value+1);
+            setTimeout(()=>{
+              NumberCounter()
+            },25)
+          }
+        }
+      
+      NumberCounter()
+    });
+  </script>
+</body>
+</html>
